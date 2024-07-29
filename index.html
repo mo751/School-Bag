@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض الحقيبة المدرسية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: right;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+        .row {
+            margin-bottom: 20px;
+        }
+        .row label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+        .slider {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+        .option {
+            flex: 0 0 14.28%; /* 100% / 7 */
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        .option img {
+            width: 100px;
+            height: 100px;
+        }
+        .option.selected {
+            border-color: #4CAF50;
+        }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .button:hover {
+            background-color: #45a049;
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+            transform: translateY(-50%);
+        }
+        .arrow.left {
+            left: 0;
+        }
+        .arrow.right {
+            right: 0;
+        }
+    </style>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("-NZge5vqsozcfwuxy"); // استبدل YOUR_USER_ID بمعرف المستخدم الخاص بك من EmailJS
+        })();
+
+        function selectOption(type, value, element) {
+            document.querySelectorAll(`#${type}Options .option`).forEach(option => {
+                option.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            document.getElementById(`selected${type.charAt(0).toUpperCase() + type.slice(1)}`).value = value;
+        }
+
+        function slide(type, direction) {
+            const slider = document.getElementById(`${type}Options`);
+            const itemWidth = slider.querySelector('.option').offsetWidth;
+            slider.scrollBy({
+                left: itemWidth * direction,
+                behavior: 'smooth'
+            });
+        }
+
+        function sendEmail() {
+            const bag = document.getElementById('selectedBag').value;
+            const pens = document.getElementById('selectedPens').value;
+            const tools = document.getElementById('selectedTools').value;
+
+            const templateParams = {
+                bag: bag,
+                pens: pens,
+                tools: tools
+            };
+
+            emailjs.send('service_5p91utk', 'template_2o3joke', templateParams) // استبدل YOUR_TEMPLATE_ID بمعرف القالب الخاص بك
+                .then(function(response) {
+                    console.log('SUCCESS!', response.status, response.text);
+                    alert('تم إرسال البريد الإلكتروني بنجاح.');
+                }, function(error) {
+                    console.log('FAILED...', error);
+                    alert('حدث خطأ أثناء إرسال البريد الإلكتروني.');
+                });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>عرض الحقيبة المدرسية</h1>
+        <form id="productForm" onsubmit="sendEmail(); return false;">
+            <div class="row">
+                <label>اختر الحقيبة المدرسية:</label>
+                <div class="slider-container">
+                    <div class="arrow left" onclick="slide('bag', -1)">&#9664;</div>
+                    <div class="slider" id="bagOptions">
+                        <div class="option" onclick="selectOption('bag', 'حقيبة 1', this)">
+                            <img src="https://via.placeholder.com/100" alt="حقيبة 1">
+                            <p>حقيبة 1</p>
+                        </div>
+                        <div class="option" onclick="selectOption('bag', 'حقيبة 2', this)">
+                            <img src="https://via.placeholder.com/100" alt="حقيبة 2">
+                            <p>حقيبة 2</p>
+                        </div>
+                        <div class="option" onclick="selectOption('bag', 'حقيبة 3', this)">
+                            <img src="https://via.placeholder.com/100" alt="حقيبة 3">
+                            <p>حقيبة 3</p>
+                        </div>
+                        <div class="option" onclick="selectOption('bag', 'حقيبة 4', this)">
+                            <img src="https://via.placeholder.com/100" alt="حقيبة 4">
+                            <p>حقيبة 4</p>
+                        </div>
+                        <div class="option" onclick="selectOption('bag', 'حقيبة 5', this)">
+                            <img src="https://via.placeholder.com/100" alt="حقيبة 5">
+                            <p>حقيبة 5</p>
+                        </div>
+                        <div class="option" onclick="selectOption('bag', 'حقيبة 6', this)">
+                            <img src="https://via.placeholder.com/100" alt="حقيبة 6">
+                            <p>حقيبة 6</p>
+                        </div>
+                        <div class="option" onclick="selectOption('bag', 'حقيبة 7', this)">
+                            <img src="https://via.placeholder.com/100" alt="حقيبة 7">
+                            <p>حقيبة 7</p>
+                        </div>
+                    </div>
+                    <div class="arrow right" onclick="slide('bag', 1)">&#9654;</div>
+                </div>
+                <input type="hidden" name="bag" id="selectedBag">
+            </div>
+            <div class="row">
+                <label>اختر الأقلام:</label>
+                <div class="slider-container">
+                    <div class="arrow left" onclick="slide('pens', -1)">&#9664;</div>
+                    <div class="slider" id="pensOptions">
+                        <div class="option" onclick="selectOption('pens', 'قلم 1', this)">
+                            <img src="https://via.placeholder.com/100" alt="قلم 1">
+                            <p>قلم 1</p>
+                        </div>
+                        <div class="option" onclick="selectOption('pens', 'قلم 2', this)">
+                            <img src="https://via.placeholder.com/100" alt="قلم 2">
+                            <p>قلم 2</p>
+                        </div>
+                        <div class="option" onclick="selectOption('pens', 'قلم 3', this)">
+                            <img src="https://via.placeholder.com/100" alt="قلم 3">
+                            <p>قلم 3</p>
+                        </div>
+                        <div class="option" onclick="selectOption('pens', 'قلم 4', this)">
+                            <img src="https://via.placeholder.com/100" alt="قلم 4">
+                            <p>قلم 4</p>
+                        </div>
+                        <div class="option" onclick="selectOption('pens', 'قلم 5', this)">
+                            <img src="https://via.placeholder.com/100" alt="قلم 5">
+                            <p>قلم 5</p>
+                        </div>
+                        <div class="option" onclick="selectOption('pens', 'قلم 6', this)">
+                            <img src="https://via.placeholder.com/100" alt="قلم 6">
+                            <p>قلم 6</p>
+                        </div>
+                        <div class=" option" onclick="selectOption('pens', 'قلم 7', this)">
+                            <img src="https://via.placeholder.com/100" alt="قلم 7">
+                            <p>قلم 7</p>
+                        </div>
+                    </div>
+                    <div class="arrow right" onclick="slide('pens', 1)">&#9654;</div>
+                </div>
+                <input type="hidden" name="pens" id="selectedPens">
+            </div>
+            <div class="row">
+                <label>اختر نوع الأدوات الهندسية:</label>
+                <div class="slider-container">
+                    <div class="arrow left" onclick="slide('tools', -1)">&#9664;</div>
+                    <div class="slider" id="toolsOptions">
+                        <div class="option" onclick="selectOption('tools', 'أداة 1', this)">
+                            <img src="https://via.placeholder.com/100" alt="أداة 1">
+                            <p>أداة 1</p>
+                        </div>
+                        <div class="option" onclick="selectOption('tools', 'أداة 2', this)">
+                            <img src="https://via.placeholder.com/100" alt="أداة 2">
+                            <p>أداة 2</p>
+                        </div>
+                        <div class="option" onclick="selectOption('tools', 'أداة 3', this)">
+                            <img src="https://via.placeholder.com/100" alt="أداة 3">
+                            <p>أداة 3</p>
+                        </div>
+                        <div class="option" onclick="selectOption('tools', 'أداة 4', this)">
+                            <img src="https://via.placeholder.com/100" alt="أداة 4">
+                            <p>أداة 4</p>
+                        </div>
+                        <div class="option" onclick="selectOption('tools', 'أداة 5', this)">
+                            <img src="https://via.placeholder.com/100" alt="أداة 5">
+                            <p>أداة 5</p>
+                        </div>
+                        <div class="option" onclick="selectOption('tools', 'أداة 6', this)">
+                            <img src="https://via.placeholder.com/100" alt="أداة 6">
+                            <p>أداة 6</p>
+                        </div>
+                        <div class="option" onclick="selectOption('tools', 'أداة 7', this)">
+                            <img src="https://via.placeholder.com/100" alt="أداة 7">
+                            <p>أداة 7</p>
+                        </div>
+                    </div>
+                    <div class="arrow right" onclick="slide('tools', 1)">&#9654;</div>
+                </div>
+                <input type="hidden" name="tools" id="selectedTools">
+            </div>
+            <div class="row">
+                <button type="submit" class="button">حفظ الاختيارات</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
