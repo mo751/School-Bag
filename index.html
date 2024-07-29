@@ -114,13 +114,13 @@
                 message: message
             };
 
-            emailjs.send('service_5p91utk', 'template_2o3joke', templateParams) // استخدم معرف القالب الصحيح
+            emailjs.send('service_5p91utk', 'template_2o3joke', templateParams)
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     alert('تم إرسال البريد الإلكتروني بنجاح.');
                 }, function(error) {
                     console.log('FAILED...', error);
-                    alert('حدث خطأ أثناء إرسال البريد الإلكتروني.');
+                    alert('حدث خطأ أثناء إرسال البريد الإلكتروني. يرجى التحقق من وحدة التحكم للمزيد من التفاصيل.');
                 });
         }
     </script>
