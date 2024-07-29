@@ -81,7 +81,7 @@
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="text/javascript">
         (function() {
-            emailjs.init("-NZge5vqsozcfwuxy"); // استبدل YOUR_USER_ID بمعرف المستخدم الخاص بك من EmailJS
+            emailjs.init("NzGe5vsqozcfwxuy"); // استخدم معرف المستخدم الصحيح
         })();
 
         function selectOption(type, value, element) {
@@ -106,13 +106,15 @@
             const pens = document.getElementById('selectedPens').value;
             const tools = document.getElementById('selectedTools').value;
 
+            const message = `اختيار الحقيبة: ${bag}\nاختيار الأقلام: ${pens}\nاختيار الأدوات الهندسية: ${tools}`;
+
             const templateParams = {
-                bag: bag,
-                pens: pens,
-                tools: tools
+                to_name: 'Mohammed',
+                from_name: 'School Bag Site',
+                message: message
             };
 
-            emailjs.send('service_5p91utk', 'template_2o3joke', templateParams) // استبدل YOUR_TEMPLATE_ID بمعرف القالب الخاص بك
+            emailjs.send('service_5p91utk', 'template_2o3joke', templateParams) // استخدم معرف القالب الصحيح
                 .then(function(response) {
                     console.log('SUCCESS!', response.status, response.text);
                     alert('تم إرسال البريد الإلكتروني بنجاح.');
