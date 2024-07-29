@@ -80,50 +80,51 @@
     </style>
     <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script type="text/javascript">
-        (function() {
-            emailjs.init("iZj8XWRPClIb7Xju9"); // استخدام المفتاح العام الصحيح
-        })();
+    (function() {
+        emailjs.init("iZj8XWRPClIb7Xju9"); // استخدام المفتاح العام الصحيح
+    })();
 
-        function selectOption(type, value, element) {
-            document.querySelectorAll(`#${type}Options .option`).forEach(option => {
-                option.classList.remove('selected');
+    function selectOption(type, value, element) {
+        document.querySelectorAll(`#${type}Options .option`).forEach(option => {
+            option.classList.remove('selected');
+        });
+        element.classList.add('selected');
+        document.getElementById(`selected${type.charAt(0).toUpperCase() + type.slice(1)}`).value = value;
+    }
+
+    function slide(type, direction) {
+        const slider = document.getElementById(`${type}Options`);
+        const itemWidth = slider.querySelector('.option').offsetWidth;
+        slider.scrollBy({
+            left: itemWidth * direction,
+            behavior: 'smooth'
+        });
+    }
+
+    function sendEmail() {
+        const bag = document.getElementById('selectedBag').value;
+        const pens = document.getElementById('selectedPens').value;
+        const tools = document.getElementById('selectedTools').value;
+
+        const message = `اختيار الحقيبة: ${bag}\nاختيار الأقلام: ${pens}\nاختيار الأدوات الهندسية: ${tools}`;
+
+        const templateParams = {
+            to_name: 'Mohammed',
+            from_name: 'School Bag Site',
+            message: message
+        };
+
+        emailjs.send('service_5p91utk', 'template_2o3joke', templateParams)
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                alert('تم إرسال البريد الإلكتروني بنجاح.');
+            }, function(error) {
+                console.log('FAILED...', error);
+                alert('حدث خطأ أثناء إرسال البريد الإلكتروني. يرجى التحقق من وحدة التحكم للمزيد من التفاصيل.');
             });
-            element.classList.add('selected');
-            document.getElementById(`selected${type.charAt(0).toUpperCase() + type.slice(1)}`).value = value;
-        }
+    }
+</script>
 
-        function slide(type, direction) {
-            const slider = document.getElementById(`${type}Options`);
-            const itemWidth = slider.querySelector('.option').offsetWidth;
-            slider.scrollBy({
-                left: itemWidth * direction,
-                behavior: 'smooth'
-            });
-        }
-
-        function sendEmail() {
-            const bag = document.getElementById('selectedBag').value;
-            const pens = document.getElementById('selectedPens').value;
-            const tools = document.getElementById('selectedTools').value;
-
-            const message = `اختيار الحقيبة: ${bag}\nاختيار الأقلام: ${pens}\nاختيار الأدوات الهندسية: ${tools}`;
-
-            const templateParams = {
-                to_name: 'Mohammed',
-                from_name: 'School Bag Site',
-                message: message
-            };
-
-            emailjs.send('service_5p91utk', 'template_2o3joke', templateParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    alert('تم إرسال البريد الإلكتروني بنجاح.');
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    alert('حدث خطأ أثناء إرسال البريد الإلكتروني. يرجى التحقق من وحدة التحكم للمزيد من التفاصيل.');
-                });
-        }
-    </script>
 </head>
 <body>
     <div class="container">
